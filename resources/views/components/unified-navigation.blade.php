@@ -38,8 +38,23 @@
             <x-language-switcher />
 
             @auth
-                @php $unreadNotifs = auth()->user()->unreadNotifications->count(); @endphp
-                <a href="{{ route('notifications.index') }}" style="position: relative; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: #f5f5f5; border: 1px solid var(--border-color); color: #555; text-decoration: none; transition: all 0.2s;" onmouseover="this.style.background='#e5e5e5'" onmouseout="this.style.background='#f5f5f5'">
+                @php
+                    $unreadNotifs = auth()->user()->unreadNotifications->count();
+                    $unreadMsgs = auth()->user()->isClient()
+                        ? \App\Models\Conversation::where('client_id', auth()->id())->whereHas('messages', fn($q) => $q->where('sender_id', '!=', auth()->id())->where('is_read', false))->count()
+                        : \App\Models\Conversation::where('vendor_id', auth()->id())->whereHas('messages', fn($q) => $q->where('sender_id', '!=', auth()->id())->where('is_read', false))->count();
+                @endphp
+
+                <!-- Messages icon -->
+                <a href="{{ route('chat.index') }}" title="Messages" style="position: relative; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: #f5f5f5; border: 1px solid var(--border-color); color: #555; text-decoration: none; transition: all 0.2s;" onmouseover="this.style.background='#e5e5e5'" onmouseout="this.style.background='#f5f5f5'">
+                    <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    @if($unreadMsgs > 0)
+                        <span style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: white; border-radius: 99px; font-size: 0.6rem; font-weight: 700; padding: 0.1rem 0.35rem; min-width: 16px; text-align: center; line-height: 1.4;">{{ $unreadMsgs > 9 ? '9+' : $unreadMsgs }}</span>
+                    @endif
+                </a>
+
+                <!-- Notifications icon -->
+                <a href="{{ route('notifications.index') }}" title="Notifications" style="position: relative; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: #f5f5f5; border: 1px solid var(--border-color); color: #555; text-decoration: none; transition: all 0.2s;" onmouseover="this.style.background='#e5e5e5'" onmouseout="this.style.background='#f5f5f5'">
                     <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
                     @if($unreadNotifs > 0)
                         <span style="position: absolute; top: -4px; right: -4px; background: #ef4444; color: white; border-radius: 99px; font-size: 0.6rem; font-weight: 700; padding: 0.1rem 0.35rem; min-width: 16px; text-align: center; line-height: 1.4;">{{ $unreadNotifs > 9 ? '9+' : $unreadNotifs }}</span>
@@ -72,7 +87,12 @@
                         @elseif(Auth::user()->isVendor())
                             <a href="{{ route('services.vendor') }}" class="dropdown-link">🛍️ My Services</a>
                             <a href="{{ route('bookings.vendor') }}" class="dropdown-link">📋 Bookings</a>
-                            <a href="{{ route('chat.index') }}" class="dropdown-link">💬 Messages</a>
+                            <a href="{{ route('chat.index') }}" class="dropdown-link">
+                                💬 Messages
+                                @if($unreadMsgs > 0)
+                                    <span style="background: #ef4444; color: white; border-radius: 99px; font-size: 0.65rem; padding: 0.1rem 0.4rem; float: right; font-weight: 700;">{{ $unreadMsgs }}</span>
+                                @endif
+                            </a>
                         @endif
                         <a href="{{ route('profile.edit') }}" class="dropdown-link">⚙️ {{ __('nav.profile_settings') }}</a>
                         <div style="border-top: 1px solid var(--border-color); margin: 0.5rem 0;"></div>

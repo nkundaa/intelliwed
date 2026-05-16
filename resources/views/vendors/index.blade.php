@@ -56,11 +56,24 @@
                         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.5; flex: 1;">
                             Professional wedding service provider offering a variety of packages to make your day special.
                         </p>
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1rem;">
-                            <div style="color: var(--text-muted); font-size: 0.85rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); padding-top: 1rem; gap: 0.5rem;">
+                            <div style="color: var(--text-muted); font-size: 0.85rem; flex: 1;">
                                 {{ $vendor->total_bookings }} Bookings
                             </div>
-                            <a href="{{ route('vendors.show', $vendor->id) }}" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View Profile</a>
+                            @auth
+                                @if(auth()->user()->isClient())
+                                    <a href="{{ route('chat.start', $vendor->user_id) }}" class="btn btn-outline" style="padding: 0.5rem 0.85rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem;">
+                                        <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                        Message
+                                    </a>
+                                @endif
+                            @else
+                                <button onclick="window.openAuthModal('login')" class="btn btn-outline" style="padding: 0.5rem 0.85rem; font-size: 0.85rem; display: flex; align-items: center; gap: 0.3rem; cursor: pointer; font-family: inherit;" title="Sign in to message this vendor">
+                                    <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                    Message
+                                </button>
+                            @endauth
+                            <a href="{{ route('vendors.show', $vendor->id) }}" class="btn btn-secondary" style="padding: 0.5rem 0.85rem; font-size: 0.85rem;">View Profile</a>
                         </div>
                     </div>
                 </div>

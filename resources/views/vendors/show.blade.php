@@ -112,10 +112,27 @@
                     </div>
                     
                     <hr style="border: none; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
-                    
-                    <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">Interested in working with {{ $vendor->business_name }}? Browse their services to book now.</p>
-                    
-                    <a href="{{ route('services.index') }}" class="btn btn-primary" style="text-align: center;">Explore More Services</a>
+
+                    @auth
+                        @if(auth()->user()->isClient())
+                            <a href="{{ route('chat.start', $vendor->user_id) }}" class="btn btn-primary" style="text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                Message this Vendor
+                            </a>
+                            <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 0.25rem;">Ask questions before booking</p>
+                        @else
+                            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">Interested in working with {{ $vendor->business_name }}? Browse their services to book now.</p>
+                            <a href="{{ route('services.index') }}" class="btn btn-primary" style="text-align: center;">Explore More Services</a>
+                        @endif
+                    @else
+                        <div style="background: var(--dark-neutral); border-radius: 12px; padding: 1.5rem; text-align: center;">
+                            <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 1rem;">Sign in to message {{ $vendor->business_name }} directly.</p>
+                            <button onclick="window.openAuthModal('login')" class="btn btn-secondary" style="width: 100%; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                Sign in to Message
+                            </button>
+                        </div>
+                    @endauth
                 </div>
             </div>
         </div>
