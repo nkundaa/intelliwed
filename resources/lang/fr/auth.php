@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'login' => 'Connexion',
+    'register' => "S'inscrire",
+    'email' => 'Adresse e-mail',
+    'password' => 'Mot de passe',
+    'confirm_password' => 'Confirmer le mot de passe',
+    'name' => 'Nom complet',
+    'remember_me' => 'Se souvenir de moi',
+    'forgot_password' => 'Mot de passe oublié ?',
+    'login_btn' => 'Se connecter',
+    'register_btn' => 'Créer un compte',
+    'no_account' => "Vous n'avez pas de compte ?",
+    'has_account' => 'Vous avez déjà un compte ?',
+    'role' => 'Je suis',
+    'role_client' => 'Couple / Client',
+    'role_vendor' => 'Prestataire de mariage',
+    'welcome_back' => 'Bon retour',
+    'create_account_title' => 'Créez votre compte',
+    'login_subtitle' => 'Connectez-vous pour continuer à planifier votre mariage parfait',
+    'register_subtitle' => 'Rejoignez IntelliWed pour commencer à planifier le mariage de vos rêves',
+    'reset_password' => 'Réinitialiser le mot de passe',
+    'send_reset_link' => 'Envoyer le lien de réinitialisation',
+    'verify_email' => 'Vérifiez votre e-mail',
+    'verify_email_sent' => 'Un lien de vérification a été envoyé à votre adresse e-mail.',
+    'resend_verification' => "Renvoyer l'e-mail de vérification",
+];

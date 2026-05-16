@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'login' => 'Login',
+    'register' => 'Register',
+    'email' => 'Email Address',
+    'password' => 'Password',
+    'confirm_password' => 'Confirm Password',
+    'name' => 'Full Name',
+    'remember_me' => 'Remember me',
+    'forgot_password' => 'Forgot your password?',
+    'login_btn' => 'Log In',
+    'register_btn' => 'Create Account',
+    'no_account' => "Don't have an account?",
+    'has_account' => 'Already have an account?',
+    'role' => 'I am a',
+    'role_client' => 'Couple / Client',
+    'role_vendor' => 'Wedding Vendor',
+    'welcome_back' => 'Welcome back',
+    'create_account_title' => 'Create your account',
+    'login_subtitle' => 'Sign in to continue planning your perfect wedding',
+    'register_subtitle' => 'Join IntelliWed to start planning your dream wedding',
+    'reset_password' => 'Reset Password',
+    'send_reset_link' => 'Send Reset Link',
+    'verify_email' => 'Verify Your Email',
+    'verify_email_sent' => 'A verification link has been sent to your email address.',
+    'resend_verification' => 'Resend Verification Email',
+];

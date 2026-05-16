@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/vrt/intelliwed/
+    - /bin/cp -R * $DEPLOYPATH
