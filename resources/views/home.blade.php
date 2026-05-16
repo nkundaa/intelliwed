@@ -71,7 +71,7 @@
 <!-- Hero Section -->
 <section style="position: relative; padding: 6rem 0; background: var(--dark-neutral); overflow: hidden;" class="hero-section">
     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.6;">
-        <img src="{{ asset('images/hero-opening.jpg') }}" style="width: 100%; height: 100%; object-fit: cover;">
+        <img src="{{ asset('images/hero-rwandan-couple.jpg') }}" style="width: 100%; height: 100%; object-fit: cover;">
     </div>
     <div class="container" style="position: relative; z-index: 1; text-align: center; color: var(--white);">
         <h1 style="font-size: 3.5rem; color: var(--primary-beige); margin-bottom: 1.5rem; line-height: 1.2;" class="hero-title">{!! __('home.hero_title') !!}</h1>
@@ -107,7 +107,7 @@
             </div>
 
             <div class="card" style="padding: 0; overflow: hidden;" class="category-card">
-                <img src="{{ asset('images/music.png') }}" style="width: 100%; height: 200px; object-fit: cover;">
+                <img src="{{ asset('images/music-live-band.jpg') }}" style="width: 100%; height: 200px; object-fit: cover;">
                 <div style="padding: 1.5rem;">
                     <h3 style="margin-bottom: 0.5rem; font-size: 1.25rem;">{{ __('home.music') }}</h3>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">{{ __('home.music_desc') }}</p>
