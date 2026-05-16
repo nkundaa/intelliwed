@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IntelliWed • Modern Dashboard UI</title>
+
+    <!-- Font (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons (Font Awesome) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- IntelliWed Modern UI -->
+    <link rel="stylesheet" href="/css/modern-ui.css" />
+    <link rel="stylesheet" href="/css/utilities.css" />
+
+    <style>
+      :root {
+        --content-max: 1280px;
+      }
+
+      .app-shell {
+        min-height: 100vh;
+      }
+
+      .main {
+        margin-left: 16rem;
+        min-height: 100vh;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: var(--z-sticky);
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--gray-200);
+      }
+
+      .topbar-inner {
+        max-width: var(--content-max);
+        margin: 0 auto;
+        padding: var(--space-4) var(--space-6);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-6);
+      }
+
+      .topbar-title {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+        min-width: 0;
+      }
+
+      .topbar-title h1 {
+        font-size: 1.25rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .topbar-title p {
+        margin: 0;
+        font-size: 0.875rem;
+        color: var(--gray-500);
+      }
+
+      .search {
+        flex: 1;
+        min-width: 240px;
+        max-width: 520px;
+        position: relative;
+      }
+
+      .search i {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-400);
+        pointer-events: none;
+      }
+
+      .search input {
+        width: 100%;
+        padding: var(--space-3) var(--space-4);
+        padding-left: 40px;
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--gray-300);
+        background: var(--bg-primary);
+        transition: all var(--transition-normal);
+      }
+
+      .search input:focus {
+        outline: none;
+        border-color: var(--primary-400);
+        box-shadow: 0 0 0 3px var(--primary-100);
+      }
+
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: var(--space-3);
+      }
+
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-xl);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--gray-200);
+        background: var(--bg-primary);
+        color: var(--gray-700);
+        transition: all var(--transition-normal);
+        cursor: pointer;
+      }
+
+      .icon-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--gray-300);
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 9999px;
+        background: linear-gradient(135deg, var(--primary-500), var(--primary-700));
+        box-shadow: var(--shadow-sm);
+        border: 2px solid rgba(255, 255, 255, 0.9);
+      }
+
+      .page {
+        max-width: var(--content-max);
+        margin: 0 auto;
+        padding: var(--space-6);
+      }
+
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: var(--space-6);
+        margin-bottom: var(--space-6);
+      }
+
+      .section-head h2 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+      }
+
+      .section-head .meta {
+        margin: 0;
+        color: var(--gray-500);
+        font-size: 0.875rem;
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: var(--space-6);
+      }
+
+      .col-span-12 {
+        grid-column: span 12 / span 12;
+      }
+      .col-span-8 {
+        grid-column: span 8 / span 8;
+      }
+      .col-span-6 {
+        grid-column: span 6 / span 6;
+      }
+      .col-span-3 {
+        grid-column: span 3 / span 3;
+      }
+      .col-span-4 {
+        grid-column: span 4 / span 4;
+      }
+
+      .stat-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-bottom: var(--space-3);
+      }
+
+      .stat-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: var(--radius-xl);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary-50);
+        color: var(--primary-700);
+        border: 1px solid var(--primary-100);
+      }
+
+      .kpi-delta {
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 6px 10px;
+        border-radius: 9999px;
+        border: 1px solid var(--gray-200);
+        background: var(--gray-50);
+        color: var(--gray-700);
+      }
+
+      .kpi-delta.up {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: rgba(16, 185, 129, 0.25);
+        color: #0f766e;
+      }
+
+      .kpi-delta.down {
+        background: rgba(239, 68, 68, 0.08);
+        border-color: rgba(239, 68, 68, 0.22);
+        color: #b91c1c;
+      }
+
+      .kpi-delta.warning {
+        background: rgba(245, 158, 11, 0.12);
+        border-color: rgba(245, 158, 11, 0.25);
+        color: #92400e;
+      }
+
+      .progress {
+        height: 10px;
+        border-radius: 9999px;
+        background: var(--gray-100);
+        overflow: hidden;
+        border: 1px solid var(--gray-200);
+      }
+
+      .progress > span {
+        display: block;
+        height: 100%;
+        width: var(--w, 0%);
+        background: linear-gradient(90deg, var(--primary-500), var(--primary-700));
+        border-radius: 9999px;
+        transition: width var(--transition-slow);
+      }
+
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+
+      .list-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding: var(--space-4);
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--gray-200);
+        background: var(--bg-primary);
+        transition: all var(--transition-normal);
+      }
+
+      .list-item:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+        border-color: var(--gray-300);
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        border: 1px solid var(--gray-200);
+        background: var(--gray-50);
+        color: var(--gray-700);
+      }
+
+      .pill.primary {
+        background: var(--primary-50);
+        border-color: var(--primary-100);
+        color: var(--primary-700);
+      }
+
+      .pill.warning {
+        background: rgba(245, 158, 11, 0.12);
+        border-color: rgba(245, 158, 11, 0.25);
+        color: #92400e;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+
+      .table th,
+      .table td {
+        padding: var(--space-4);
+        border-bottom: 1px solid var(--gray-200);
+        text-align: left;
+        font-size: 0.875rem;
+      }
+
+      .table th {
+        color: var(--gray-600);
+        font-weight: 700;
+        background: var(--gray-50);
+      }
+
+      .table tr:hover td {
+        background: rgba(14, 165, 233, 0.04);
+      }
+
+      .mobile-only {
+        display: none;
+      }
+
+      @media (max-width: 1024px) {
+        .col-span-8 {
+          grid-column: span 12 / span 12;
+        }
+        .col-span-4 {
+          grid-column: span 12 / span 12;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .main {
+          margin-left: 0;
+        }
+        .page {
+          padding: var(--space-5);
+        }
+        .search {
+          display: none;
+        }
+        .mobile-only {
+          display: inline-flex;
+        }
+        .col-span-6 {
+          grid-column: span 12 / span 12;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <!-- Sidebar -->
+      <aside class="sidebar" id="sidebar" aria-label="Sidebar navigation">
+        <div class="sidebar-header">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>IntelliWed</span>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a class="sidebar-link active" href="#">
+            <i class="fa-solid fa-gauge icon"></i>
+            Dashboard
+          </a>
+          <a class="sidebar-link" href="#">
+            <i class="fa-regular fa-calendar icon"></i>
+            Timeline
+          </a>
+          <a class="sidebar-link" href="#">
+            <i class="fa-solid fa-list-check icon"></i>
+            Tasks
+          </a>
+          <a class="sidebar-link" href="#">
+            <i class="fa-solid fa-wallet icon"></i>
+            Budget
+          </a>
+          <a class="sidebar-link" href="#">
+            <i class="fa-solid fa-store icon"></i>
+            Vendors
+          </a>
+
+          <div style="height: var(--space-4)"></div>
+
+          <a class="sidebar-link" href="#">
+            <i class="fa-regular fa-bell icon"></i>
+            Notifications
+          </a>
+          <a class="sidebar-link" href="#">
+            <i class="fa-solid fa-gear icon"></i>
+            Settings
+          </a>
+          <a class="sidebar-link" href="#">
+            <i class="fa-regular fa-circle-question icon"></i>
+            Help
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Main -->
+      <div class="main">
+        <header class="topbar" aria-label="Top navigation">
+          <div class="topbar-inner">
+            <div class="topbar-title">
+              <button class="icon-btn mobile-only" id="menuBtn" aria-label="Open menu">
+                <i class="fa-solid fa-bars"></i>
+              </button>
+
+              <div style="min-width: 0">
+                <h1>Dashboard</h1>
+                <p class="text-gray-500">Overview of your planning workspace</p>
+              </div>
+            </div>
+
+            <div class="search" role="search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="search" placeholder="Search vendors, tasks, notes…" />
+            </div>
+
+            <div class="topbar-actions">
+              <button class="icon-btn" aria-label="Notifications">
+                <i class="fa-regular fa-bell"></i>
+              </button>
+              <button class="icon-btn" aria-label="Quick add">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+              <div class="avatar" aria-label="User profile"></div>
+            </div>
+          </div>
+        </header>
+
+        <main class="page">
+          <div class="section-head">
+            <div>
+              <h2>Today</h2>
+              <p class="meta">Clean, card-based layout with modern spacing and hierarchy.</p>
+            </div>
+            <div class="flex items-center gap-3">
+              <a class="btn btn-secondary" href="#">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                Export
+              </a>
+              <a class="btn btn-primary" href="#">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                Generate plan
+              </a>
+            </div>
+          </div>
+
+          <!-- KPI row -->
+          <section class="dashboard-grid" aria-label="Key metrics">
+            <div class="stat-card col-span-3">
+              <div class="stat-top">
+                <div class="stat-icon"><i class="fa-solid fa-check-double"></i></div>
+                <span class="kpi-delta up"><i class="fa-solid fa-arrow-trend-up"></i> +12%</span>
+              </div>
+              <div class="stat-number">24</div>
+              <div class="stat-label">Tasks completed</div>
+              <div class="mt-4 progress" aria-label="Tasks progress"><span style="--w: 72%"></span></div>
+            </div>
+
+            <div class="stat-card col-span-3">
+              <div class="stat-top">
+                <div class="stat-icon"><i class="fa-solid fa-wallet"></i></div>
+                <span class="kpi-delta"><i class="fa-regular fa-circle"></i> On track</span>
+              </div>
+              <div class="stat-number">$8.4k</div>
+              <div class="stat-label">Budget remaining</div>
+              <div class="mt-4 progress" aria-label="Budget remaining"><span style="--w: 58%"></span></div>
+            </div>
+
+            <div class="stat-card col-span-3">
+              <div class="stat-top">
+                <div class="stat-icon"><i class="fa-regular fa-calendar"></i></div>
+                <span class="kpi-delta warning"><i class="fa-solid fa-clock"></i> 6 days</span>
+              </div>
+              <div class="stat-number">3</div>
+              <div class="stat-label">Upcoming deadlines</div>
+              <div class="mt-4 progress" aria-label="Deadlines"><span style="--w: 35%"></span></div>
+            </div>
+
+            <div class="stat-card col-span-3">
+              <div class="stat-top">
+                <div class="stat-icon"><i class="fa-solid fa-store"></i></div>
+                <span class="kpi-delta down"><i class="fa-solid fa-arrow-trend-down"></i> -3%</span>
+              </div>
+              <div class="stat-number">12</div>
+              <div class="stat-label">Vendors shortlisted</div>
+              <div class="mt-4 progress" aria-label="Vendors"><span style="--w: 80%"></span></div>
+            </div>
+          </section>
+
+          <div style="height: var(--space-6)"></div>
+
+          <!-- Main cards -->
+          <section class="dashboard-grid" aria-label="Dashboard sections">
+            <!-- Left -->
+            <div class="col-span-8">
+              <div class="card">
+                <div class="card-header">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <h3 class="text-2xl">Activity</h3>
+                      <p class="text-sm text-gray-500" style="margin-top: var(--space-1)">
+                        Quick updates across tasks, vendors, and budget.
+                      </p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <a class="btn btn-ghost" href="#"><i class="fa-solid fa-filter"></i> Filter</a>
+                      <a class="btn btn-secondary" href="#"><i class="fa-solid fa-plus"></i> Add note</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-body">
+                  <div class="list">
+                    <div class="list-item">
+                      <div class="flex items-center gap-3" style="min-width: 0">
+                        <span class="pill primary"><i class="fa-solid fa-check"></i> Task</span>
+                        <div style="min-width: 0">
+                          <div class="font-semibold text-gray-900">Confirm venue deposit</div>
+                          <div class="text-sm text-gray-500">Updated 2 hours ago</div>
+                        </div>
+                      </div>
+                      <a class="btn btn-ghost" href="#"><i class="fa-solid fa-arrow-right"></i> View</a>
+                    </div>
+
+                    <div class="list-item">
+                      <div class="flex items-center gap-3" style="min-width: 0">
+                        <span class="pill"><i class="fa-solid fa-store"></i> Vendor</span>
+                        <div style="min-width: 0">
+                          <div class="font-semibold text-gray-900">New quote from “Luna Photography”</div>
+                          <div class="text-sm text-gray-500">Waiting on your review</div>
+                        </div>
+                      </div>
+                      <a class="btn btn-secondary" href="#"><i class="fa-solid fa-file-invoice-dollar"></i> Review</a>
+                    </div>
+
+                    <div class="list-item">
+                      <div class="flex items-center gap-3" style="min-width: 0">
+                        <span class="pill warning"><i class="fa-solid fa-triangle-exclamation"></i> Budget</span>
+                        <div style="min-width: 0">
+                          <div class="font-semibold text-gray-900">Catering is trending above estimate</div>
+                          <div class="text-sm text-gray-500">Consider adjusting guest count or menu</div>
+                        </div>
+                      </div>
+                      <a class="btn btn-ghost" href="#"><i class="fa-solid fa-sliders"></i> Adjust</a>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <div class="flex items-center justify-between gap-4">
+                    <p class="text-sm text-gray-500" style="margin: 0">
+                      Tip: keep cards short—avoid long paragraphs to maintain a dashboard feel.
+                    </p>
+                    <a class="btn btn-primary btn-sm" href="#"><i class="fa-solid fa-plus"></i> New task</a>
+                  </div>
+                </div>
+              </div>
+
+              <div style="height: var(--space-6)"></div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <h3 class="text-2xl">Upcoming milestones</h3>
+                      <p class="text-sm text-gray-500" style="margin-top: var(--space-1)">
+                        Card-based schedule preview (compact, scannable).
+                      </p>
+                    </div>
+                    <a class="btn btn-ghost" href="#"><i class="fa-regular fa-calendar"></i> Open timeline</a>
+                  </div>
+                </div>
+
+                <div class="card-body" style="padding: 0">
+                  <table class="table" aria-label="Milestones table">
+                    <thead>
+                      <tr>
+                        <th>Milestone</th>
+                        <th>Owner</th>
+                        <th>Status</th>
+                        <th style="width: 160px">Due</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="font-semibold text-gray-900">Finalize guest list</td>
+                        <td class="text-gray-600">You</td>
+                        <td><span class="pill primary"><i class="fa-solid fa-bolt"></i> In progress</span></td>
+                        <td class="text-gray-600">Apr 26</td>
+                      </tr>
+                      <tr>
+                        <td class="font-semibold text-gray-900">Book makeup artist</td>
+                        <td class="text-gray-600">Partner</td>
+                        <td><span class="pill"><i class="fa-regular fa-circle"></i> Pending</span></td>
+                        <td class="text-gray-600">May 02</td>
+                      </tr>
+                      <tr>
+                        <td class="font-semibold text-gray-900">Send invitations</td>
+                        <td class="text-gray-600">You</td>
+                        <td><span class="pill warning"><i class="fa-solid fa-clock"></i> Needs attention</span></td>
+                        <td class="text-gray-600">May 10</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right -->
+            <div class="col-span-4">
+              <div class="card">
+                <div class="card-header">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <h3 class="text-2xl">Quick actions</h3>
+                      <p class="text-sm text-gray-500" style="margin-top: var(--space-1)">
+                        Modern buttons with hover + transitions.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card-body">
+                  <div class="grid grid-cols-1 gap-4">
+                    <a class="btn btn-primary" href="#">
+                      <i class="fa-solid fa-plus"></i>
+                      Add vendor
+                    </a>
+                    <a class="btn btn-secondary" href="#">
+                      <i class="fa-solid fa-list-check"></i>
+                      Create task list
+                    </a>
+                    <a class="btn btn-ghost" href="#">
+                      <i class="fa-solid fa-file-lines"></i>
+                      View notes
+                    </a>
+                  </div>
+
+                  <div style="height: var(--space-6)"></div>
+
+                  <div class="card" style="box-shadow: none; background: var(--gray-50)">
+                    <div class="card-body">
+                      <div class="flex items-center justify-between gap-4">
+                        <div>
+                          <div class="font-semibold text-gray-900">Planning health</div>
+                          <div class="text-sm text-gray-500">Based on deadlines + budget</div>
+                        </div>
+                        <span class="pill primary"><i class="fa-solid fa-shield-heart"></i> Good</span>
+                      </div>
+                      <div class="mt-4 progress" aria-label="Health"><span style="--w: 82%"></span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="height: var(--space-6)"></div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="flex items-center justify-between gap-4">
+                    <div>
+                      <h3 class="text-2xl">Pinned</h3>
+                      <p class="text-sm text-gray-500" style="margin-top: var(--space-1)">
+                        Small, separated cards (no clutter).
+                      </p>
+                    </div>
+                    <a class="btn btn-ghost btn-sm" href="#"><i class="fa-solid fa-thumbtack"></i> Manage</a>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="list">
+                    <div class="list-item">
+                      <div class="flex items-center gap-3">
+                        <div class="stat-icon" style="width: 40px; height: 40px">
+                          <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                          <div class="font-semibold text-gray-900">Venue contract</div>
+                          <div class="text-sm text-gray-500">PDF • signed</div>
+                        </div>
+                      </div>
+                      <button class="icon-btn" aria-label="Open">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      </button>
+                    </div>
+
+                    <div class="list-item">
+                      <div class="flex items-center gap-3">
+                        <div class="stat-icon" style="width: 40px; height: 40px">
+                          <i class="fa-solid fa-users"></i>
+                        </div>
+                        <div>
+                          <div class="font-semibold text-gray-900">Guest list</div>
+                          <div class="text-sm text-gray-500">154 invited</div>
+                        </div>
+                      </div>
+                      <button class="icon-btn" aria-label="Open">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script>
+      const sidebar = document.getElementById('sidebar');
+      const menuBtn = document.getElementById('menuBtn');
+
+      function toggleSidebar() {
+        sidebar.classList.toggle('open');
+      }
+
+      if (menuBtn) {
+        menuBtn.addEventListener('click', toggleSidebar);
+      }
+
+      // Close sidebar on outside click (mobile)
+      document.addEventListener('click', (e) => {
+        if (!sidebar.classList.contains('open')) return;
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (!isMobile) return;
+        const clickedInside = sidebar.contains(e.target) || menuBtn.contains(e.target);
+        if (!clickedInside) sidebar.classList.remove('open');
+      });
+    </script>
+  </body>
+</html>
+
