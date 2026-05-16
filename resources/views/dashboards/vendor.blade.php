@@ -3,29 +3,45 @@
 @section('title', 'Vendor Dashboard')
 
 @section('content')
-<!-- Status Alert if Pending -->
-@if($vendor->status == 'pending')
-    <div class="card" style="background: #fff8e1; border-color: #ffe082; color: #f57f17; margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem;">
-        <svg style="width: 24px; height: 24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 17c-.77 1.333.192 3 1.732 3z"></path></svg>
+{{-- ── Vendor Onboarding Steps ── --}}
+@php
+    $hasServices    = $services->count() > 0;
+    $isVerified     = (bool) $vendor->is_verified;
+    $hasBookings    = $bookings->count() > 0;
+    $vendorDone     = (int)$hasServices + (int)$isVerified + (int)$hasBookings;
+@endphp
+@if($vendorDone < 3)
+<div style="background: linear-gradient(135deg, #1a1a1a, #2d2d2d); border-radius: 20px; padding: 1.75rem 2rem; margin-bottom: 1.5rem; color: white;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
         <div>
-            <strong style="display: block;">{{ __('vendor.pending_approval') }}</strong>
-            <span style="font-size: 0.9rem;">{{ __('vendor.pending_approval_msg') }}</span>
+            <div style="font-weight: 800; font-size: 1.05rem; color: #9bf6af;">Set up your vendor profile — {{ $vendorDone }}/3 done</div>
+            <div style="font-size: 0.85rem; color: rgba(255,255,255,0.55); margin-top: 0.2rem;">Complete these steps to start receiving bookings</div>
+        </div>
+        <div style="background: rgba(155,246,175,0.15); border: 1px solid rgba(155,246,175,0.3); color: #9bf6af; border-radius: 99px; padding: 0.35rem 1rem; font-size: 0.8rem; font-weight: 700;">{{ round(($vendorDone/3)*100) }}%</div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+        <a href="{{ route('services.create') }}" style="background: rgba(255,255,255,0.07); border: 1px solid {{ $hasServices ? '#4ade80' : 'rgba(255,255,255,0.15)' }}; border-radius: 14px; padding: 1.1rem 1.25rem; display: flex; align-items: center; gap: 0.9rem; text-decoration: none; color: white; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.07)'">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: {{ $hasServices ? '#dcfce7' : 'rgba(255,255,255,0.1)' }}; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">{{ $hasServices ? '✅' : '🛍️' }}</div>
+            <div><div style="font-weight: 700; font-size: 0.88rem;">Add your first service</div><div style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">List what you offer</div></div>
+        </a>
+        <a href="{{ route('vendor.verification') }}" style="background: rgba(255,255,255,0.07); border: 1px solid {{ $isVerified ? '#4ade80' : 'rgba(255,255,255,0.15)' }}; border-radius: 14px; padding: 1.1rem 1.25rem; display: flex; align-items: center; gap: 0.9rem; text-decoration: none; color: white; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.07)'">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: {{ $isVerified ? '#dcfce7' : 'rgba(255,255,255,0.1)' }}; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">{{ $isVerified ? '✅' : '🛡️' }}</div>
+            <div><div style="font-weight: 700; font-size: 0.88rem;">Get verified</div><div style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">Build trust with clients</div></div>
+        </a>
+        <div style="background: rgba(255,255,255,0.07); border: 1px solid {{ $hasBookings ? '#4ade80' : 'rgba(255,255,255,0.15)' }}; border-radius: 14px; padding: 1.1rem 1.25rem; display: flex; align-items: center; gap: 0.9rem;">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: {{ $hasBookings ? '#dcfce7' : 'rgba(255,255,255,0.1)' }}; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">{{ $hasBookings ? '✅' : '📦' }}</div>
+            <div><div style="font-weight: 700; font-size: 0.88rem; color: {{ $hasBookings ? '#4ade80' : 'rgba(255,255,255,0.9)' }};">Receive first booking</div><div style="font-size: 0.75rem; color: rgba(255,255,255,0.5);">Clients will find you</div></div>
         </div>
     </div>
-@endif
-
-<div class="card" style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; background: var(--soft-beige);">
-    <div style="display: flex; align-items: center; gap: 1rem;">
-        <div style="padding: 0.75rem; background: var(--white); border-radius: 50%; box-shadow: var(--shadow-sm);">
-            <svg style="width: 24px; height: 24px; color: var(--dark-neutral);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-9.618 3.072 11.956 11.956 0 00-1.382 11.054 11.95 11.95 0 005.108 5.935L12 21.503l.892-.54c3.19-1.933 5.108-5.41 5.108-5.935a11.956 11.956 0 00-1.382-11.054z"></path></svg>
-        </div>
-        <div>
-            <h4 style="margin: 0;">{{ __('vendor.trust_badge') }}</h4>
-            <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted);">{{ $vendor->is_verified ? 'Your account is verified.' : 'Verify your account to build trust with clients.' }}</p>
-        </div>
-    </div>
-    <a href="{{ route('vendor.verification') }}" class="btn btn-outline" style="font-size: 0.85rem;">{{ $vendor->is_verified ? 'Manage Badges' : 'Get Verified' }}</a>
 </div>
+@else
+{{-- All done — verified badge strip --}}
+<div style="background: #f0fff4; border: 1px solid #bbf7d0; border-radius: 14px; padding: 1rem 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;">
+    <span style="font-size: 1.5rem;">🌟</span>
+    <div style="flex: 1;"><div style="font-weight: 700; color: #15803d;">Profile complete!</div><div style="font-size: 0.85rem; color: #555;">You're verified and receiving bookings. Keep your services updated.</div></div>
+    <a href="{{ route('vendor.verification') }}" class="btn btn-outline" style="font-size: 0.85rem; flex-shrink: 0;">Manage Badges</a>
+</div>
+@endif
 
 <div class="stats-grid">
     <div class="stat-card">
@@ -101,8 +117,10 @@
         </div>
     @else
         <div class="card" style="text-align: center; padding: 4rem 2rem;">
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">You haven't listed any services yet.</p>
-            <a href="{{ route('services.create') }}" class="btn btn-primary">Create Your First Service</a>
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🛍️</div>
+            <h3 style="margin-bottom: 0.5rem; font-size: 1.25rem;">No services listed yet</h3>
+            <p style="color: var(--text-muted); margin-bottom: 1.75rem; max-width: 380px; margin-left: auto; margin-right: auto;">Add your first service so clients can find and book you. It only takes a few minutes.</p>
+            <a href="{{ route('services.create') }}" class="btn btn-primary" style="padding: 0.875rem 2rem;">+ Add Your First Service</a>
         </div>
     @endif
 </div>

@@ -147,6 +147,54 @@
     </div>
 @endif
 
+{{-- ── Onboarding Checklist (shown until all 3 steps are done) ── --}}
+@php
+    $hasProfile   = (bool) $weddingProfile;
+    $hasBooking   = $bookings->count() > 0;
+    $hasVendorMsg = $unreadMessages > 0 || \App\Models\Conversation::where('client_id', $user->id)->exists();
+    $doneCount    = (int)$hasProfile + (int)$hasBooking + (int)$hasVendorMsg;
+@endphp
+@if($doneCount < 3)
+<div style="background: linear-gradient(135deg, #f0fff4, #dcfce7); border: 1px solid #bbf7d0; border-radius: 20px; padding: 1.75rem 2rem; margin-bottom: 1.5rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+            <div style="font-weight: 800; font-size: 1.05rem; color: #1a1a1a;">Getting started — {{ $doneCount }}/3 complete</div>
+            <div style="font-size: 0.85rem; color: #555; margin-top: 0.2rem;">Complete these steps to get the most out of IntelliWed</div>
+        </div>
+        <div style="background: #1a1a1a; color: #9bf6af; border-radius: 99px; padding: 0.35rem 1rem; font-size: 0.8rem; font-weight: 700;">{{ round(($doneCount/3)*100) }}% done</div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem;">
+        {{-- Step 1 --}}
+        <a href="{{ route('wedding.profile') }}" style="background: white; border-radius: 14px; padding: 1.1rem 1.25rem; display: flex; align-items: center; gap: 0.9rem; text-decoration: none; color: inherit; border: 2px solid {{ $hasProfile ? '#4ade80' : '#e5e5e5' }}; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
+            <div style="width: 38px; height: 38px; border-radius: 50%; background: {{ $hasProfile ? '#dcfce7' : '#f5f5f5' }}; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">{{ $hasProfile ? '✅' : '💍' }}</div>
+            <div>
+                <div style="font-weight: 700; font-size: 0.9rem; {{ $hasProfile ? 'color:#15803d;text-decoration:line-through;' : '' }}">Set up wedding profile</div>
+                <div style="font-size: 0.75rem; color: #888;">Add your date, partner & budget</div>
+            </div>
+        </a>
+
+        {{-- Step 2 --}}
+        <a href="{{ route('services.index') }}" style="background: white; border-radius: 14px; padding: 1.1rem 1.25rem; display: flex; align-items: center; gap: 0.9rem; text-decoration: none; color: inherit; border: 2px solid {{ $hasBooking ? '#4ade80' : '#e5e5e5' }}; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
+            <div style="width: 38px; height: 38px; border-radius: 50%; background: {{ $hasBooking ? '#dcfce7' : '#f5f5f5' }}; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">{{ $hasBooking ? '✅' : '🔍' }}</div>
+            <div>
+                <div style="font-weight: 700; font-size: 0.9rem; {{ $hasBooking ? 'color:#15803d;text-decoration:line-through;' : '' }}">Book your first vendor</div>
+                <div style="font-size: 0.75rem; color: #888;">Browse & book a service</div>
+            </div>
+        </a>
+
+        {{-- Step 3 --}}
+        <a href="{{ route('chat.index') }}" style="background: white; border-radius: 14px; padding: 1.1rem 1.25rem; display: flex; align-items: center; gap: 0.9rem; text-decoration: none; color: inherit; border: 2px solid {{ $hasVendorMsg ? '#4ade80' : '#e5e5e5' }}; transition: box-shadow 0.2s;" onmouseover="this.style.boxShadow='0 4px 16px rgba(0,0,0,0.08)'" onmouseout="this.style.boxShadow='none'">
+            <div style="width: 38px; height: 38px; border-radius: 50%; background: {{ $hasVendorMsg ? '#dcfce7' : '#f5f5f5' }}; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;">{{ $hasVendorMsg ? '✅' : '💬' }}</div>
+            <div>
+                <div style="font-weight: 700; font-size: 0.9rem; {{ $hasVendorMsg ? 'color:#15803d;text-decoration:line-through;' : '' }}">Message a vendor</div>
+                <div style="font-size: 0.75rem; color: #888;">Ask questions before booking</div>
+            </div>
+        </a>
+    </div>
+</div>
+@endif
+
 <!-- Welcome Banner with Countdown -->
 <div class="welcome-banner">
     <div style="position: relative; z-index: 1;">
