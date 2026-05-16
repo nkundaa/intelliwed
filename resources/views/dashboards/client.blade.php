@@ -243,7 +243,12 @@
     </a>
     <a href="{{ route('chat.index') }}" class="quick-btn" style="{{ $unreadMessages > 0 ? 'border-color: #9bf6af; background: #f0fff4;' : '' }}">
         <div class="icon">💬</div>
-        <div class="label">Messages@if($unreadMessages > 0) <span style="background: #ef4444; color: white; border-radius: 99px; font-size: 0.65rem; padding: 0.1rem 0.4rem; margin-left: 2px;">{{ $unreadMessages }}</span>@endif</div>
+        <div class="label">
+            Messages
+            @if($unreadMessages > 0)
+                <span style="background: #ef4444; color: white; border-radius: 99px; font-size: 0.65rem; padding: 0.1rem 0.4rem; margin-left: 2px;">{{ $unreadMessages }}</span>
+            @endif
+        </div>
     </a>
     <a href="{{ route('vendors.index') }}" class="quick-btn">
         <div class="icon">🔍</div>
