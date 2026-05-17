@@ -33,12 +33,16 @@
                 <label class="label" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 800;">Category</label>
                 <select name="category" class="input" style="border-radius: 12px;">
                     <option value="">All Categories</option>
-                    <option value="venue" {{ request('category') == 'venue' ? 'selected' : '' }}>{{ __('home.venues') }}</option>
-                    <option value="photographer" {{ request('category') == 'photographer' ? 'selected' : '' }}>{{ __('home.photography') }}</option>
-                    <option value="catering" {{ request('category') == 'catering' ? 'selected' : '' }}>Catering</option>
-                    <option value="music" {{ request('category') == 'music' ? 'selected' : '' }}>{{ __('home.music') }}</option>
-                    <option value="beauty" {{ request('category') == 'beauty' ? 'selected' : '' }}>{{ __('home.beauty') }}</option>
-                    <option value="decorator" {{ request('category') == 'decorator' ? 'selected' : '' }}>Decorators</option>
+                    <option value="venue"        {{ request('category') == 'venue'        ? 'selected' : '' }}>Venues</option>
+                    <option value="catering"     {{ request('category') == 'catering'     ? 'selected' : '' }}>Catering</option>
+                    <option value="photography"  {{ request('category') == 'photography'  ? 'selected' : '' }}>Photography</option>
+                    <option value="decor"        {{ request('category') == 'decor'        ? 'selected' : '' }}>Decor & Flowers</option>
+                    <option value="attire"       {{ request('category') == 'attire'       ? 'selected' : '' }}>Attire & Beauty</option>
+                    <option value="music"        {{ request('category') == 'music'        ? 'selected' : '' }}>Music & Entertainment</option>
+                    <option value="invitations"  {{ request('category') == 'invitations'  ? 'selected' : '' }}>Invitations & Stationery</option>
+                    <option value="transport"    {{ request('category') == 'transport'    ? 'selected' : '' }}>Transport</option>
+                    <option value="ceremony"     {{ request('category') == 'ceremony'     ? 'selected' : '' }}>Ceremony Services</option>
+                    <option value="other"        {{ request('category') == 'other'        ? 'selected' : '' }}>Other</option>
                 </select>
             </div>
             <div class="form-group" style="margin: 0;">
