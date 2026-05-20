@@ -111,26 +111,34 @@
                         </div>
                     </div>
                     
-                    <hr style="border: none; border-top: 1px solid var(--border-color); margin: 0.5rem 0;">
-
+                    <!-- Message CTA -->
                     @auth
                         @if(auth()->user()->isClient())
-                            <a href="{{ route('chat.start', $vendor->user_id) }}" class="btn btn-primary" style="text-align: center; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                                <svg style="width: 18px; height: 18px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                                Message this Vendor
-                            </a>
-                            <p style="font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 0.25rem;">Ask questions before booking</p>
+                            <div style="background: linear-gradient(135deg, #111 0%, #1e1e1e 100%); border-radius: 16px; padding: 1.5rem; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+                                <div style="font-weight: 700; font-size: 0.95rem; color: white; margin-bottom: 0.35rem;">Chat with {{ $vendor->business_name }}</div>
+                                <div style="font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-bottom: 1rem;">Ask questions, share your vision, confirm availability.</div>
+                                <a href="{{ route('chat.start', $vendor->user_id) }}" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.8rem 1rem; background: #9bf6af; color: #111; border-radius: 10px; font-weight: 700; font-size: 0.9rem; text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='#7de89b'" onmouseout="this.style.background='#9bf6af'">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                                    Send a Message
+                                </a>
+                                <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; justify-content: center;">
+                                    <a href="{{ route('chat.start', $vendor->user_id) }}?q=availability" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 99px; padding: 0.3rem 0.75rem; font-size: 0.75rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">Check availability</a>
+                                    <a href="{{ route('chat.start', $vendor->user_id) }}?q=pricing" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 99px; padding: 0.3rem 0.75rem; font-size: 0.75rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">Ask about pricing</a>
+                                </div>
+                            </div>
                         @else
-                            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center;">Interested in working with {{ $vendor->business_name }}? Browse their services to book now.</p>
-                            <a href="{{ route('services.index') }}" class="btn btn-primary" style="text-align: center;">Explore More Services</a>
+                            <p style="font-size: 0.9rem; color: var(--text-muted); text-align: center; margin-bottom: 0.5rem;">Interested in working with {{ $vendor->business_name }}?</p>
+                            <a href="{{ route('services.index') }}" class="btn btn-primary" style="text-align: center; width: 100%;">Explore Their Services</a>
                         @endif
                     @else
-                        <div style="background: var(--dark-neutral); border-radius: 12px; padding: 1.5rem; text-align: center;">
-                            <p style="color: #ccc; font-size: 0.9rem; margin-bottom: 1rem;">Sign in to message {{ $vendor->business_name }} directly.</p>
-                            <button onclick="window.openAuthModal('login')" class="btn btn-secondary" style="width: 100%; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                                <svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                        <div style="background: linear-gradient(135deg, #111, #1e1e1e); border-radius: 16px; padding: 1.5rem; text-align: center;">
+                            <div style="font-size: 1.75rem; margin-bottom: 0.5rem;">💬</div>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.88rem; margin-bottom: 1rem; line-height: 1.5;">Sign in to message <strong style="color: white;">{{ $vendor->business_name }}</strong> and ask anything before booking.</p>
+                            <a href="{{ route('login') }}" class="btn btn-secondary" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-weight: 700;">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                                 Sign in to Message
-                            </button>
+                            </a>
                         </div>
                     @endauth
                 </div>
