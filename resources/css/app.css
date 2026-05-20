@@ -27,6 +27,60 @@
     --radius: 12px;
 }
 
+/* ── Dark Mode ── */
+[data-theme="dark"] {
+    --bg-body: #0f0f0f;
+    --bg-card: #1a1a1a;
+    --bg-sidebar: #141414;
+    --text-main: #f0f0f0;
+    --text-muted: #9a9a9a;
+    --border-color: #2a2a2a;
+    --white: #1a1a1a;
+    --soft-beige: #161616;
+    --dark-beige: #2e2e2e;
+    --light-neutral: #252525;
+    --dark-neutral: #f0f0f0;
+    --medium-neutral: #b0b0b0;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.6);
+}
+
+[data-theme="dark"] body {
+    background: #0f0f0f;
+    color: #f0f0f0;
+}
+
+[data-theme="dark"] .card {
+    background: #1a1a1a;
+    border-color: #2a2a2a;
+}
+
+[data-theme="dark"] input[type="text"],
+[data-theme="dark"] input[type="email"],
+[data-theme="dark"] input[type="password"],
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+    background: #222;
+    border-color: #333;
+    color: #f0f0f0;
+}
+
+[data-theme="dark"] .btn-primary {
+    background-color: #9bf6af;
+    color: #111;
+}
+
+[data-theme="dark"] .btn-outline {
+    border-color: #444;
+    color: #f0f0f0;
+}
+
+[data-theme="dark"] .btn-outline:hover {
+    background-color: #f0f0f0;
+    color: #111;
+}
+
 * {
     margin: 0;
     padding: 0;
